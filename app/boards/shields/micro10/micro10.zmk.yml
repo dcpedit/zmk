@@ -1,0 +1,11 @@
+file_format: "1"
+id: micro10
+name: MICRO10
+type: shield
+url: https://github.com/dcpedit/micro10
+requires: [pro_micro]
+exposes: [i2c_oled]
+features:
+  - keys
+  - display
+  - encoder
