@@ -132,6 +132,9 @@ config ZMK_BLE_CLEAR_BONDS_ON_START
 config BT_GATT_NOTIFY_MULTIPLE
 	default n
 
+config BT_GATT_AUTO_SEC_REQ
+	default n
+
 config BT_DEVICE_APPEARANCE
 	default 961
 
@@ -372,10 +375,6 @@ config ZMK_SLEEP
 
 if ZMK_SLEEP
 
-choice SYS_PM_POLICY
-	default PM_POLICY_APP
-endchoice
-
 config PM_DEVICE
 	default y
 
@@ -422,7 +421,7 @@ menu "Advanced"
 
 menu "Initialization Priorities"
 
-if USB
+if USB_DEVICE_STACK
 
 config ZMK_USB_INIT_PRIORITY
 	int "USB Init Priority"
@@ -481,15 +480,6 @@ config ZMK_LOG_LEVEL
 config USB_CDC_ACM_RINGBUF_SIZE
 	default 1024
 
-config USB_CDC_ACM_DEVICE_NAME
-	default "CDC_ACM"
-
-config USB_CDC_ACM_DEVICE_COUNT
-	default 1
-
-config UART_CONSOLE_ON_DEV_NAME
-	default "CDC_ACM_0"
-
 config LOG_BUFFER_SIZE
 	default 8192
 
@@ -526,7 +516,7 @@ config KERNEL_BIN_NAME
 config REBOOT
 	default y
 
-config USB
+config USB_DEVICE_STACK
 	default y if HAS_HW_NRF_USBD
 
 config ZMK_WPM
