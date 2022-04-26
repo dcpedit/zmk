@@ -9,8 +9,8 @@
 #include <dt-bindings/zmk/bt.h>
 
 #define DEFAULT 0
-#define NUM_SYM 1
-#define NAV     2
+#define L_FN    1
+#define R_FN    2
 
 / {
     behaviors {
@@ -31,29 +31,30 @@
 
         default_layer {
             bindings = <
-    &kp Q      &kp W      &kp E       &kp R       &kp T     &kp Y  &kp U       &kp I       &kp O      &kp P
-    &hm LGUI A &hm LALT S &hm LCTRL D &hm LSHFT F &kp G     &kp H  &hm RSHFT J &hm RCTRL K            &hm RET L
-    &kp Z      &kp X      &kp C       &kp V       &kp B     &kp N  &kp M       &kp COMMA              &lt NUM_SYM BSLH
-    &kp LSHFT             &kp BSPC    &kp C_MUTE  &kp SPACE &lt NUM_SYM SPACE                         &kp RALT
+    &kp Q      &kp W      &kp E       &kp R       &kp T     &kp Y       &kp U       &kp I      &kp O       &kp P
+    &hm LGUI A &hm LALT S &hm LCTRL D &hm LSHFT F &kp G     &hm RALT H  &hm RSHFT J &hm RCTRL K            &hm RGUI L
+    &lt L_FN Z &kp X      &kp C       &kp V       &kp B     &kp N       &kp M       &kp COMMA              &lt R_FN DOT
+    &kp LSHFT             &kp BSPC    &kp C_MUTE  &kp SPACE &none                                          &kp RALT
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
         };
-        num_sym {
+        
+        l_fn {
             bindings = <
-    &kp N1     &kp N2     &kp N3     &kp N4       &kp N5    &kp N6 &kp N7     &kp N8      &kp N9    &kp N0
-    &bootloader &reset    &trans     &trans       &trans    &trans &trans     &trans                &kp MINUS
-    &kp DEL               &none      &none        &none     &none  &none      &none                 &kp DOT
-    &none                 &none      &trans       &trans    &kp RET                                 &kp FSLH
+    &bt BT_PRV &bt BT_NXT &kp N3     &kp N4       &kp N5    &kp N6      &kp N7     &kp N8      &kp N9    &kp N0
+    &trans     &trans     &trans    &trans       &trans    &kp LBKT    &kp RBKT   &kp BSLH               &kp RET
+    &none      &kp ESC    &reset     &bootloader  &kp FSLH  &kp SEMI    &kp APOS   &none                 &kp COMMA
+    &none                 &none      &trans       &kp BSPC  &none                                        &none
             >;
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp PG_DN PG_UP>;
         };
 
-    nav {
+        r_fn {
             bindings = <
-    &bt BT_CLR &bt BT_NXT &bt BT_PRV &none       &none      &none  &none      &kp UP       &none     &kp BSPC
-    &trans     &trans     &trans     &trans      &none      &none  &kp LEFT   &kp DOWN               &kp RIGHT
-    &none                 &none      &none       &none      &none  &none      &none                  &none
-    &none                 &none      &trans      &trans     &kp RET                                  &kp FSLH
+    &kp N1      &kp N2      &kp N3     &kp N4      &kp N5     &kp N6      &kp N7     &kp N8      &kp N9     &bt BT_CLR
+    &kp TAB     &kp EQUAL   &kp MINUS  &trans      &none      &trans      &trans     &trans                 &trans
+    &kp GRAVE   &kp ESC     &none      &none       &kp FSLH   &none       &none      &none                  &none
+    &none                   &none      &trans      &kp BSPC   &none                                         &none
             >;
         };
     };
