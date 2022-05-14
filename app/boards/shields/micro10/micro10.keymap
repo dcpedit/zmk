@@ -41,9 +41,9 @@
         
         l_fn {
             bindings = <
-    &bt BT_PRV &bt BT_NXT &kp N3     &kp N4       &kp N5    &kp N6      &kp N7     &kp N8      &kp N9    &kp N0
-    &trans     &trans     &trans    &trans       &trans    &kp LBKT    &kp RBKT   &kp BSLH               &kp RET
-    &none      &kp ESC    &reset     &bootloader  &kp FSLH  &kp SEMI    &kp APOS   &none                 &kp COMMA
+    &kp F1     &kp F2     &kp F3     &kp F4       &kp F5    &kp N6      &kp N7     &kp N8      &kp N9    &kp N0
+    &trans     &trans     &trans     &trans       &kp UP    &kp LBKT    &kp RBKT   &kp BSLH              &kp RET
+    &none      &bt BT_NXT &kp LEFT   &kp DOWN     &kp RIGHT &kp SEMI    &kp APOS   &none                 &kp COMMA
     &none                 &none      &trans       &kp BSPC  &none                                        &none
             >;
             sensor-bindings = <&inc_dec_kp PG_DN PG_UP>;
@@ -51,9 +51,9 @@
 
         r_fn {
             bindings = <
-    &kp N1      &kp N2      &kp N3     &kp N4      &kp N5     &kp N6      &kp N7     &kp N8      &kp N9     &bt BT_CLR
+    &kp N1      &kp N2      &kp N3     &kp N4      &kp N5     &kp F6      &kp F7     &kp F8      &kp F9     &kp F10
     &kp TAB     &kp EQUAL   &kp MINUS  &trans      &none      &trans      &trans     &trans                 &trans
-    &kp GRAVE   &kp ESC     &none      &none       &kp FSLH   &none       &none      &none                  &none
+    &kp GRAVE   &kp ESC     &none      &none       &kp FSLH   &none       &bt BT_CLR &none                  &none
     &none                   &none      &trans      &kp BSPC   &none                                         &none
             >;
         };
