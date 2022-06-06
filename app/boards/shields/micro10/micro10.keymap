@@ -44,7 +44,7 @@
             #binding-cells = <2>;
             tapping-term-ms = <150>;
             quick-tap-ms = <0>;
-            flavor = "balanced";
+            flavor = "hold-preferred";
             bindings = <&mo>, <&kp>;
         };
 
@@ -53,10 +53,21 @@
             label = "TOP_HOLD_TAP";
             #binding-cells = <2>;
             flavor = "hold-preferred";
-            tapping-term-ms = <100>;                        // <---[[produces tap if held longer than tapping-term-ms]]
+            tapping-term-ms = <150>;                        // <---[[produces tap if held longer than tapping-term-ms]]
             quick-tap-ms = <0>;
             bindings = <&mo>, <&kp>;
-            hold-trigger-key-positions = <7 16 17 18 31>;    // <---[[right-hand keys]]
+            hold-trigger-key-positions = <7 16 17 18>;
+        };
+
+        bht: bottom_hold_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "BOTTOM_HOLD_TAP";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;                        // <---[[produces tap if held longer than tapping-term-ms]]
+            quick-tap-ms = <0>;
+            bindings = <&mo>, <&kp>;
+            hold-trigger-key-positions = <31>;
         };
     };
 };
@@ -67,9 +78,9 @@
 
         default_layer {
             bindings = <
-    &tht TFN Q &kp W      &kp E       &kp R       &kp T     &kp Y       &kp U       &kp I      &kp O       &kp P
+    &kp Q      &kp W      &kp E       &kp R       &kp T     &kp Y       &kp U       &kp I      &kp O       &kp P
     &lm LGUI A &lm LALT S &lm LCTRL D &lm LSHFT F &kp G     &rm RALT H  &rm RSHFT J &rm RCTRL K            &rm RGUI L
-    &lht LFN Z &kp X      &kp C       &kp V       &kp B     &kp N       &kp M       &kp COMMA              &lht RFN DOT
+    &lht LFN Z &kp X      &kp C       &bht TFN V  &kp B     &kp N       &kp M       &kp COMMA              &lht RFN DOT
     &kp LSHFT             &kp BSPC    &kp C_MUTE  &kp SPACE &none                                          &kp RALT
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
