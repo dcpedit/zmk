@@ -89,7 +89,7 @@
         l_fn {
             bindings = <
     &kp F1     &kp F2     &kp F3     &kp F4       &kp F5    &kp N6      &kp N7     &kp N8      &kp N9    &kp N0
-    &trans     &trans     &trans     &trans       &trans    &kp LBKT    &kp RBKT   &kp BSLH              &kp RET
+    &trans     &trans     &trans     &trans       &trans    &kp BSLH    &kp LBKT   &kp RBKT              &kp RET
     &none      &bt BT_NXT &trans     &trans       &trans    &kp SEMI    &kp APOS   &none                 &kp COMMA
     &none                 &none      &trans       &trans    &none                                        &none
             >;
