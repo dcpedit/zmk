@@ -21,6 +21,10 @@ Variations of the warnings shown below occur when flashing the `<firmware>.uf2` 
 | :--------------------------------------------------------------------------: |
 |                An example of the file transfer error on MacOS                |
 
+### MacOS Ventura error
+
+MacOS 13.0 (Ventura) Finder running on Apple silicon hardware may report an error code 100093 when copying `<firmware>.uf2` files into microcontrollers. This bug is limited to the operating system's Finder. You can work around it by copying on Terminal command line or use a third party file manager.
+
 ### CMake Error
 
 An error along the lines of `CMake Error at (zmk directory)/zephyr/cmake/generic_toolchain.cmake:64 (include): include could not find load file:` during firmware compilation indicates that the Zephyr Environment Variables are not properly defined.
@@ -105,7 +109,7 @@ Some users may experience a poor connection between the keyboard and the host. T
 CONFIG_BT_CTLR_TX_PWR_PLUS_8=y
 ```
 
-For the `nRF52840`, the value `PLUS_8` can be set to any multiple of four between `MINUS_20` and `PLUS_8`. The default value for this config is `0`, but if you are having connection issues it is recommended to set it to `PLUS_8` because the power consumption difference is negligible. For more information on changing the transmit power of your BLE device, please refer to [the Zephyr docs.](https://docs.zephyrproject.org/latest/reference/kconfig/CONFIG_BT_CTLR_TX_PWR_PLUS_8.html)
+For the `nRF52840`, the value `PLUS_8` can be set to any multiple of four between `MINUS_20` and `PLUS_8`. The default value for this config is `0`, but if you are having connection issues it is recommended to set it to `PLUS_8` because the power consumption difference is negligible. For more information on changing the transmit power of your BLE device, please refer to [the Zephyr docs.](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_BT_CTLR_TX_PWR)
 
 ### Other notes and warnings
 
