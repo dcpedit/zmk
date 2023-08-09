@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include <usb/usb_device.h>
-#include <usb/class/usb_hid.h>
+#include <zephyr/usb/usb_device.h>
+#include <zephyr/usb/class/usb_hid.h>
 
 #include <zmk/keys.h>
 #include <dt-bindings/zmk/hid_usage.h>
@@ -52,7 +52,7 @@ static const uint8_t zmk_hid_report_desc[] = {
     HID_INPUT(0x02),
 #elif IS_ENABLED(CONFIG_ZMK_HID_REPORT_TYPE_HKRO)
     HID_LOGICAL_MIN8(0x00),
-    HID_LOGICAL_MAX8(0xFF),
+    HID_LOGICAL_MAX16(0xFF, 0x00),
     HID_USAGE_MIN8(0x00),
     HID_USAGE_MAX8(0xFF),
     HID_REPORT_SIZE(0x08),
