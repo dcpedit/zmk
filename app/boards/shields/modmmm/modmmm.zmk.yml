@@ -1,0 +1,8 @@
+file_format: "1"
+id: modmmm
+name: ModMmm
+type: shield
+url: https://github.com/dcpedit/mod-mmm
+requires: [blackpill]
+features:
+  - keys

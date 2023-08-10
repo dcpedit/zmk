@@ -107,7 +107,7 @@
 
         c_fn {
             bindings = <
-    &trans      &trans      &trans     &reset      &bootloader &trans     &trans     &kp UP      &trans     &trans
+    &trans      &trans      &trans     &sys_reset      &bootloader &trans     &trans     &kp UP      &trans     &trans
     &trans      &trans      &trans     &trans      &trans     &trans      &kp LEFT   &kp DOWN               &kp RIGHT
     &trans      &trans      &trans     &trans      &trans     &trans      &trans     &trans                 &trans
     &trans                  &trans     &trans      &kp BSPC   &trans                                        &trans
