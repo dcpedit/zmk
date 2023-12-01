@@ -1,0 +1,9 @@
+# Copyright (c) 2020 The ZMK Contributors
+# SPDX-License-Identifier: MIT
+
+if SHIELD_KINESISPB
+
+config ZMK_KEYBOARD_NAME
+    default "Kinesis PillBug"
+
+endif

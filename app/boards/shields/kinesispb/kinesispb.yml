@@ -1,0 +1,8 @@
+file_format: "1"
+id: kinesisbp
+name: Kinesis PillBug
+type: shield
+url: https://github.com/dcpedit/kinesismod
+requires: [pillbug]
+features:
+  - keys
