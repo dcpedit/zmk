@@ -224,6 +224,15 @@ int zmk_ble_clear_bonds() {
 
 int zmk_ble_active_profile_index() { return active_profile; }
 
+int zmk_ble_profile_index(const bt_addr_le_t *addr) {
+    for (int i = 0; i < ZMK_BLE_PROFILE_COUNT; i++) {
+        if (bt_addr_le_cmp(addr, &profiles[i].peer) == 0) {
+            return i;
+        }
+    }
+    return -ENODEV;
+}
+
 #if IS_ENABLED(CONFIG_SETTINGS)
 static void ble_save_profile_work(struct k_work *work) {
     settings_save_one("ble/active_profile", &active_profile, sizeof(active_profile));
@@ -270,6 +279,27 @@ int zmk_ble_prof_prev() {
     return zmk_ble_prof_select((active_profile + ZMK_BLE_PROFILE_COUNT - 1) %
                                ZMK_BLE_PROFILE_COUNT);
 };
+
+int zmk_ble_prof_disconnect(uint8_t index) {
+    if (index >= ZMK_BLE_PROFILE_COUNT)
+        return -ERANGE;
+
+    bt_addr_le_t *addr = &profiles[index].peer;
+    struct bt_conn *conn;
+    int result;
+
+    if (!bt_addr_le_cmp(addr, BT_ADDR_LE_ANY)) {
+        return -ENODEV;
+    } else if ((conn = bt_conn_lookup_addr_le(BT_ID_DEFAULT, addr)) == NULL) {
+        return -ENODEV;
+    }
+
+    result = bt_conn_disconnect(conn, BT_HCI_ERR_REMOTE_USER_TERM_CONN);
+    LOG_DBG("Disconnected from profile %d: %d", index, result);
+
+    bt_conn_unref(conn);
+    return result;
+}
 
 bt_addr_le_t *zmk_ble_active_profile_addr() { return &profiles[active_profile].peer; }
 
