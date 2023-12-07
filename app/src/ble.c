@@ -106,7 +106,9 @@ void set_profile_address(uint8_t index, const bt_addr_le_t *addr) {
     memcpy(&profiles[index].peer, addr, sizeof(bt_addr_le_t));
     sprintf(setting_name, "ble/profiles/%d", index);
     LOG_DBG("Setting profile addr for %s to %s", setting_name, addr_str);
+#if IS_ENABLED(CONFIG_SETTINGS)
     settings_save_one(setting_name, &profiles[index], sizeof(struct zmk_ble_profile));
+#endif
     k_work_submit(&raise_profile_changed_event_work);
 }
 
@@ -445,9 +447,11 @@ static void connected(struct bt_conn *conn, uint8_t err) {
 
     LOG_DBG("Connected %s", addr);
 
+#if !IS_ENABLED(CONFIG_BT_GATT_AUTO_SEC_REQ)
     if (bt_conn_set_security(conn, BT_SECURITY_L2)) {
         LOG_ERR("Failed to set security");
     }
+#endif // !IS_ENABLED(CONFIG_BT_GATT_AUTO_SEC_REQ)
 
     update_advertising();
 
@@ -551,13 +555,19 @@ static void auth_cancel(struct bt_conn *conn) {
     LOG_DBG("Pairing cancelled: %s", addr);
 }
 
+static bool pairing_allowed_for_current_profile(struct bt_conn *conn) {
+    return zmk_ble_active_profile_is_open() ||
+           (IS_ENABLED(CONFIG_BT_SMP_ALLOW_UNAUTH_OVERWRITE) &&
+            bt_addr_le_cmp(zmk_ble_active_profile_addr(), bt_conn_get_dst(conn)) == 0);
+}
+
 static enum bt_security_err auth_pairing_accept(struct bt_conn *conn,
                                                 const struct bt_conn_pairing_feat *const feat) {
     struct bt_conn_info info;
     bt_conn_get_info(conn, &info);
 
     LOG_DBG("role %d, open? %s", info.role, zmk_ble_active_profile_is_open() ? "yes" : "no");
-    if (info.role == BT_CONN_ROLE_PERIPHERAL && !zmk_ble_active_profile_is_open()) {
+    if (info.role == BT_CONN_ROLE_PERIPHERAL && !pairing_allowed_for_current_profile(conn)) {
         LOG_WRN("Rejecting pairing request to taken profile %d", active_profile);
         return BT_SECURITY_ERR_PAIR_NOT_ALLOWED;
     }
@@ -578,7 +588,7 @@ static void auth_pairing_complete(struct bt_conn *conn, bool bonded) {
         return;
     }
 
-    if (!zmk_ble_active_profile_is_open()) {
+    if (!pairing_allowed_for_current_profile(conn)) {
         LOG_ERR("Pairing completed but current profile is not open: %s", addr);
         bt_unpair(BT_ID_DEFAULT, dst);
         return;
@@ -696,9 +706,9 @@ static int zmk_ble_handle_key_user(struct zmk_keycode_state_changed *event) {
         return ZMK_EV_EVENT_BUBBLE;
     }
 
-    if (!event->state) {
-        LOG_DBG("Key released, ignoring");
-        return ZMK_EV_EVENT_BUBBLE;
+    if (event->state) {
+        LOG_DBG("Key press, ignoring");
+        return ZMK_EV_EVENT_HANDLED;
     }
 
     if (key == HID_USAGE_KEY_KEYBOARD_ESCAPE) {
@@ -728,7 +738,7 @@ static int zmk_ble_handle_key_user(struct zmk_keycode_state_changed *event) {
           zmk_ble_numeric_usage_to_value(key, HID_USAGE_KEY_KEYPAD_1_AND_END,
                                          HID_USAGE_KEY_KEYPAD_0_AND_INSERT, &val))) {
         LOG_DBG("Key not a number, ignoring");
-        return ZMK_EV_EVENT_BUBBLE;
+        return ZMK_EV_EVENT_HANDLED;
     }
 
     if (ring_buf_space_get(&passkey_entries) <= 0) {
