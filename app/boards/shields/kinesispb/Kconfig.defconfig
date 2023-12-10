@@ -6,4 +6,8 @@ if SHIELD_KINESISPB
 config ZMK_KEYBOARD_NAME
     default "Kinesis PillBug"
 
+config ZMK_BACKLIGHT
+    select LED
+    select LED_GPIO
+
 endif
